@@ -5,6 +5,7 @@ import { categories, prompts } from '../../data/promptData'
 export default function PromptMuseumView() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [showAnnotation, setShowAnnotation] = useState(true)
+  const [lang, setLang] = useState<'en' | 'cn'>('en')
 
   const activePrompt = activeId ? prompts[activeId] : null
 
@@ -35,7 +36,7 @@ export default function PromptMuseumView() {
       <div className="prompt-main">
         {!activePrompt ? (
           <div className="prompt-empty">
-            选择左侧的 Prompt 查看原文和中文注解
+            选择左侧的 Prompt 查看原文、中文翻译和深度点评
           </div>
         ) : (
           <>
@@ -47,21 +48,49 @@ export default function PromptMuseumView() {
                 <span className={`tag ${activePrompt.cached ? 'tag-green' : 'tag-yellow'}`}>
                   {activePrompt.cached ? '静态 (可缓存)' : '动态 (每轮计算)'}
                 </span>
+              </div>
+              <div className="prompt-controls">
+                <div className="prompt-lang-switch">
+                  <button
+                    className={`prompt-lang-btn ${lang === 'en' ? 'active' : ''}`}
+                    onClick={() => setLang('en')}
+                  >
+                    英文原文
+                  </button>
+                  <button
+                    className={`prompt-lang-btn ${lang === 'cn' ? 'active' : ''}`}
+                    onClick={() => setLang('cn')}
+                  >
+                    中文翻译
+                  </button>
+                </div>
                 <button
                   className={`prompt-toggle ${showAnnotation ? 'active' : ''}`}
                   onClick={() => setShowAnnotation(!showAnnotation)}
                 >
-                  中文注解 {showAnnotation ? 'ON' : 'OFF'}
+                  深度点评 {showAnnotation ? 'ON' : 'OFF'}
                 </button>
               </div>
             </div>
 
-            <div className="prompt-content-block">{activePrompt.content}</div>
+            <div className="prompt-content-block">
+              {lang === 'en' ? activePrompt.content : activePrompt.contentCn}
+            </div>
 
             {showAnnotation && (
               <div className="prompt-annotation-block">
-                <div className="prompt-annotation-label">中文注解</div>
-                {activePrompt.annotation}
+                <div className="prompt-annotation-label">深度点评</div>
+                {activePrompt.annotation.split('\n').map((line, i) => {
+                  if (!line.trim()) return <div key={i} className="prompt-annotation-gap" />
+                  if (line.startsWith('【') && line.endsWith('】')) {
+                    return <div key={i} className="prompt-annotation-heading">{line}</div>
+                  }
+                  const indent = line.match(/^\d+\.\s/) ? 'prompt-annotation-point' :
+                                 line.match(/^\s+-\s/) ? 'prompt-annotation-sub' :
+                                 line.match(/^\s{3,}/) ? 'prompt-annotation-detail' :
+                                 ''
+                  return <div key={i} className={indent}>{line}</div>
+                })}
               </div>
             )}
           </>

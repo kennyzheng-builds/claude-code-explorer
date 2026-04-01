@@ -27,11 +27,31 @@
 
 .prompt-header { margin-bottom: 20px; }
 .prompt-name { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-.prompt-meta { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--text-muted); }
+.prompt-meta { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
 .prompt-meta-item { display: flex; align-items: center; gap: 4px; }
 
+.prompt-controls {
+  display: flex; align-items: center; gap: 12px;
+}
+.prompt-lang-switch {
+  display: flex; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden;
+}
+.prompt-lang-btn {
+  padding: 5px 14px; font-size: 12px;
+  background: var(--bg-tertiary); color: var(--text-secondary);
+  border: none; border-right: 1px solid var(--border-color);
+  transition: all 150ms; cursor: pointer;
+}
+.prompt-lang-btn:last-child { border-right: none; }
+.prompt-lang-btn.active {
+  background: rgba(88,166,255,0.15); color: var(--accent-blue);
+}
+.prompt-lang-btn:hover:not(.active) {
+  background: var(--bg-card);
+}
+
 .prompt-toggle {
-  padding: 6px 14px; border-radius: 6px; font-size: 12px;
+  padding: 5px 14px; border-radius: 6px; font-size: 12px;
   background: var(--bg-tertiary); color: var(--text-secondary);
   border: 1px solid var(--border-color); transition: all 150ms;
 }
@@ -45,11 +65,32 @@
 
 .prompt-annotation-block {
   background: rgba(210,153,34,0.06); border-left: 3px solid var(--accent-yellow);
-  border-radius: 0 6px 6px 0; padding: 14px 16px; margin-bottom: 16px;
-  font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+  border-radius: 0 6px 6px 0; padding: 18px 20px; margin-bottom: 16px;
+  font-size: 14px; color: var(--text-secondary); line-height: 1.85;
   font-family: var(--font-sans);
 }
-.prompt-annotation-label { font-size: 12px; font-weight: 600; color: var(--accent-yellow); margin-bottom: 6px; }
+.prompt-annotation-label { font-size: 12px; font-weight: 600; color: var(--accent-yellow); margin-bottom: 10px; }
+
+.prompt-annotation-heading {
+  font-size: 15px; font-weight: 600; color: var(--accent-blue);
+  margin-bottom: 12px;
+}
+.prompt-annotation-gap { height: 10px; }
+.prompt-annotation-point {
+  padding-left: 4px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.prompt-annotation-sub {
+  padding-left: 24px;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+}
+.prompt-annotation-detail {
+  padding-left: 24px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
 
 .prompt-empty {
   display: flex; align-items: center; justify-content: center; height: 100%;

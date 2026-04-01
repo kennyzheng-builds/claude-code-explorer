@@ -98,6 +98,7 @@ export interface PromptEntry {
   tokenEstimate: string
   cached: boolean
   content: string
+  contentCn: string
   annotation: string
 }
 
